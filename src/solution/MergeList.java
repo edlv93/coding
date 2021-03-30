@@ -29,31 +29,6 @@ public class MergeList {
         return dummy.next;
     }
 
-
-    public void quickSort(int[][] nums, int low, int high) {
-        if (low < high) {
-            int index = getIndex(nums, low, high);
-            quickSort(nums, low, index - 1);
-            quickSort(nums, index + 1, high);
-        }
-    }
-
-    public int getIndex(int[][] nums, int low, int high) {
-        int[] x = nums[low];
-        while (low < high) {
-            while (low < high && nums[high][0] >= x[0]) {
-                high--;
-            }
-            nums[low] = nums[high];
-            while (low < high && nums[low][0] < x[0]) {
-                low++;
-            }
-            nums[high] = nums[low];
-        }
-        nums[low] = x;
-        return low;
-    }
-
     public static void main(String[] args) {
         ListNode[] lists = new ListNode[3];
         lists[0] = generate(new int[]{1, 4, 5});
