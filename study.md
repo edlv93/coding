@@ -196,7 +196,7 @@ $ grep [-acinv] [--color=auto] 搜寻字符串 filename
 
 ![image-20210310174131957](/Users/lv/Library/Application Support/typora-user-images/image-20210310174131957.png)
 
-### ConcurrentHashMap的实现原理
+### ConcurrentHashMap
 
 - 采用了数组+链表+红黑树的实现方式来设计
 - ConcurrentHashMap的主干是个Segment数组
@@ -251,14 +251,18 @@ $ grep [-acinv] [--color=auto] 搜寻字符串 filename
   - 修饰静态方法，作用于当前类对象加锁，进入同步代码前要获得当前类对象的锁
   - 修饰代码块，指定加锁对象，对给定对象加锁，进入同步代码库前要获得给定对象的锁。
 
-### 偏向锁，自旋锁，轻量级锁（乐观锁）重量级锁（悲观锁）
+### JAVA锁类型
+
+偏向锁，自旋锁，轻量级锁（乐观锁）重量级锁（悲观锁）
 
 - 通过 synchronized 加锁，第一个线程获取的锁为偏向锁，这时有其他线程参与锁竞争，升级为轻量级锁，其他线程通过循环的方式尝试获得锁，称自旋锁。若果自旋的次数达到一定的阈值，则升级为重量级锁。
 - 需要注意的是，在第二个线程获取锁时，会先判断第一个线程是否仍然存活，如果不存活，不会升级为轻量级锁。
 
 ![image-20210318145724987](/Users/lv/Library/Application Support/typora-user-images/image-20210318145724987.png)
 
-### AQS（一个用来构建锁和同步器的框架）
+### AQS
+
+一个用来构建锁和同步器的框架
 
 - 结构
   - 用 volatile 修饰的整数类型的 state 状态（持有锁的次数），用于表示同步状态，提供 getState 和 setState 来操作同步状态；
@@ -486,7 +490,9 @@ InnoDB的 MVCC ，是通过在每行记录的后面保存两个隐藏的列来�
 - 不可重复读：一个事务内多次读取同一数据集合
 - 幻读：针对插入语句，一个update，一个insert，update之后发现有未更新数据
 
-### 事务的隔离级别（级别由低到高）
+### 事务的隔离级别
+
+级别由低到高
 
 - **READ UNCOMMITED** (未提交读) ：事务中的修改，即使没有提交，对其它事务也是可见的（读的过程中写，脏读，**读写并行**）
 - **READ COMMITED** (提交读)：一个事务只能读取已经提交的事务所做的修改（排它锁，**读写分离机制**，产生**不可重读**以及**幻读**问题）
@@ -511,7 +517,9 @@ InnoDB的 MVCC ，是通过在每行记录的后面保存两个隐藏的列来�
   - 切分大查询
   - 分解大连接查询：将一个大连接查询分解成对每一个表进行一次单表查询，然后在应用程序中进行关联
 
-## 缓存淘汰策略LRU( Least Recently Used)
+## 缓存淘汰策略LRU
+
+Least Recently Used
 
 - 如果一个数据在最近一段时间没有被访问到，那么在将来它被访问的可能性也很小。也就是说，当限定的空间已存满数据时，应当把最久没有被访问到的数据淘汰。
 - 哈希表+双向链表实现
@@ -768,7 +776,9 @@ HTTPS 并不是新协议，而是让 HTTP 先和 SSL（Secure Sockets Layer）�
 
 ### 分布式锁实现
 
-#### SETNX（set if not exists）(redis单例)
+#### SETNX
+
+set if not exists(redis单例)
 
 - SETNX lock.foo <current Unix time + lock timeout + 1>
 - 如果 SETNX 返回1，说明该进程获得锁，SETNX将键 lock.foo 的值设置为锁的超时时间（当前时间 + 锁的有效时间）
