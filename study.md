@@ -371,6 +371,21 @@ $ grep [-acinv] [--color=auto] 搜寻字符串 filename
 - `Method.isAnnotationPresent(Class)`
 - `Constructor.isAnnotationPresent(Class)`
 
+### 动态代理
+
+没有实现类但是在运行期动态创建了一个接口对象的方式，称为动态代码。JDK提供的动态创建接口对象的方式，就叫动态代理
+
+在运行期动态创建一个`interface`实例的方法如下：
+
+1. 定义一个`InvocationHandler`实例，它负责实现接口的方法调用；
+2. 通过Proxy.newProxyInstance()创建interface实例，它需要3个参数：
+   1. 使用的`ClassLoader`，通常就是接口类的`ClassLoader`；
+   2. 需要实现的接口数组，至少需要传入一个接口进去；
+   3. 用来处理接口方法调用的`InvocationHandler`实例。
+3. 将返回的`Object`强制转型为接口。
+
+
+
 ## MySQL
 
 ### 数据类型
@@ -878,6 +893,25 @@ Docker使用Linux的Namespaces技术来进行资源隔离
   - requiredDuringSchedulingIgnoredDuringExecution：严格执行，满足规则调度，否则不调度
   - preferredDuringSchedulingIgnoredDuringExecution：尽力执行，优先满足规则调度
 
-## RPC
+## Spring
 
-## SpringCloud
+Spring的核心就是提供了一个**IoC容器**，它可以管理所有轻量级的JavaBean组件，提供的底层服务包括组件的生命周期管理、配置和组装服务、AOP支持，以及建立在AOP基础上的声明式事务服务等
+
+### IoC原理
+
+- IoC全称Inversion of Control，直译为控制反转（依赖注入）
+- 一个高度可扩展的无侵入容器
+- 解决了一个最主要的问题：将组件的创建+配置与组件的使用相分离，并且，由IoC容器负责管理组件的生命周期
+
+**依赖注入方式**
+
+- 属性注入
+- 构造方法注入
+
+注：允许混合使用
+
+### AOP
+
+- AOP是Aspect Oriented Programming，即面向切面编程
+- Spring的AOP实现就是基于JVM的动态代理
+- Spring对接口类型使用JDK动态代理，对普通类使用CGLIB创建子类。如果一个Bean的class是final，Spring将无法为其创建子类
