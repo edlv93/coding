@@ -6,18 +6,17 @@ public class QuickSort {
             int index = getIndex(nums, l, r);
             quickSort(nums, l, index - 1);
             quickSort(nums, index + 1, r);
-            System.out.println(1);
         }
     }
 
     static int getIndex(int[] nums, int l, int r) {
         int x = nums[l];
         while (l < r) {
-            while (l < r && nums[r] <= x) {
+            while (l < r && nums[r] >= x) {
                 r--;
             }
             nums[l] = nums[r];
-            while (l < r && nums[l] > x) {
+            while (l < r && nums[l] < x) {
                 l++;
             }
             nums[r] = nums[l];
@@ -27,6 +26,8 @@ public class QuickSort {
     }
 
     public static void main(String[] args) {
-        QuickSort.quickSort(new int[]{3, 2, 1, 5, 6, 4}, 0, 5 );
+        int[] nums = new int[]{1,3,5,4,2};
+        QuickSort.quickSort(nums, 0, 4 );
+        System.out.println(1);
     }
 }
