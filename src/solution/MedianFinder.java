@@ -1,48 +1,41 @@
 package solution;
 
-import java.util.Collections;
-import java.util.LinkedList;
-import java.util.List;
+import java.util.PriorityQueue;
+import java.util.Queue;
 
+/**
+ * 剑指 Offer 41. 数据流中的中位数
+ *
+ * https://leetcode-cn.com/problems/shu-ju-liu-zhong-de-zhong-wei-shu-lcof/
+ *
+ * 优先队列 / 堆
+ */
 public class MedianFinder {
 
-    private List<Integer> data;
+    Queue<Integer> left, right;
 
     /**
      * initialize your data structure here.
      */
     public MedianFinder() {
-        data = new LinkedList<>();
+        left  = new PriorityQueue<>();
+        right = new PriorityQueue<>((x, y) -> (y - x));
     }
 
     public void addNum(int num) {
-        if (data.size() == 0) {
-            data.add(num);
+        if (left.size() != right.size()) {
+            left.add(num);
+            right.add(left.poll());
         } else {
-            int i;
-            for (i = 0; i < data.size(); i++) {
-                if (data.get(i) > num) {
-                    break;
-                }
-            }
-            if (i == data.size()) {
-                data.add(num);
-            } else {
-                data.add(data.get(data.size() - 1));
-                for (int j = data.size() - 1; j > i; j--) {
-                    data.set(j, data.get(j - 1));
-                }
-                data.set(i, num);
-            }
+            right.add(num);
+            left.add(right.poll());
         }
     }
 
     public double findMedian() {
-        if (data.size() % 2 == 0) {
-            int i = data.size() / 2;
-            return (data.get(i) + data.get(i - 1)) / 2.0;
-        } else {
-            return data.get(data.size() / 2);
+        if (left.isEmpty()) {
+            return 0;
         }
+        return left.size() != right.size() ? left.peek() : (left.peek() + right.peek()) / 2.0;
     }
 }
